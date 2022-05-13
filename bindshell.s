@@ -3,7 +3,7 @@
 .align 2
 _main:
 call_socket:
-    // s = socket(2, 1, 0)
+    // s = socket(AF_INET = 2, SOCK_STREAM = 1, 0)
     mov  x16, #97
     lsr  x1, x16, #6
     lsl  x0, x1, #1
@@ -14,7 +14,17 @@ call_socket:
     mvn  x3, x0
 
 call_bind:
-    // bind(s, &sockaddr, 16)
+    /*
+     * bind(s, &sockaddr, 0x10)
+     *
+     * struct sockaddr_in {
+     *     __uint8_t       sin_len;     // sizeof(struct sockaddr_in) = 0x10
+     *     sa_family_t     sin_family;  // AF_INET = 2
+     *     in_port_t       sin_port;    // 4444 = 0x115C
+     *     struct  in_addr sin_addr;    // 0.0.0.0 (4 bytes)
+     *     char            sin_zero[8]; // Don't care
+     * };
+     */
     mov  x1, #0x0210
     movk x1, #0x5C11, lsl #16
     str  x1, [sp, #-8]

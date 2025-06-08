@@ -8,7 +8,7 @@ _main:
     movk x1, #0x732F, lsl #32
     movk x1, #0x68, lsl #48
     str  x1, [sp, #-8]
-    mov	 x1, #8
+    mov  x1, #8
     sub  x0, sp, x1
     mov  x1, xzr
     mov  x2, xzr
